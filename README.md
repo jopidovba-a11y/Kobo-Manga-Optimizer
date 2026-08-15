@@ -1,6 +1,6 @@
 # Kobo Manga Optimizer
 
-An Android app that optimizes manga archives (CBZ, ZIP, CBR, RAR) for e-ink readers - centering the images and reducing the size of the files. IMPORTANT: I have only tested the results in my kobo clara bw, other devices could show bad results.
+An Android app that optimizes manga archives (CBZ, ZIP, CBR, RAR) for e-ink readers - centering the images and reducing the size of the files without losing perceptible quality. IMPORTANT: I have only tested the results in my kobo clara bw, other devices could show bad results.
 
    <table>
   <tr>
