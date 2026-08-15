@@ -314,167 +314,195 @@ public class CbzOptimizer {
      * Crops margins while ignoring isolated scanner lines/shadows, scales proportionally,
      * centers on a maxWidth x maxHeight canvas and converts to grayscale.
      */
-    private static Bitmap autoCropCenterAndGrayscale(Bitmap original, int maxWidth, int maxHeight) {
-        int width = original.getWidth();
-        int height = original.getHeight();
+            
+        private static Bitmap autoCropCenterAndGrayscale(Bitmap original, int maxWidth, int maxHeight) {
+    int width = original.getWidth();
+    int height = original.getHeight();
 
-        int[] pixels = new int[width * height];
-        original.getPixels(pixels, 0, width, 0, 0, width, height);
+    int[] pixels = new int[width * height];
+    original.getPixels(pixels, 0, width, 0, 0, width, height);
 
-        int[] colInk = new int[width];
-        int[] rowInk = new int[height];
-        int threshold = 210;
+    int[] colInk = new int[width];
+    int[] rowInk = new int[height];
+    int threshold = 210;
 
-        for (int y = 0; y < height; y++) {
-            int rowOffset = y * width;
-            for (int x = 0; x < width; x++) {
-                int pixel = pixels[rowOffset + x];
-                int r = (pixel >> 16) & 0xff;
-                int g = (pixel >> 8) & 0xff;
-                int b = pixel & 0xff;
-                int luminance = (int) (0.299 * r + 0.587 * g + 0.114 * b);
+    for (int y = 0; y < height; y++) {
+        int rowOffset = y * width;
+        for (int x = 0; x < width; x++) {
+            int pixel = pixels[rowOffset + x];
+            int r = (pixel >> 16) & 0xff;
+            int g = (pixel >> 8) & 0xff;
+            int b = pixel & 0xff;
+            int luminance = (int) (0.299 * r + 0.587 * g + 0.114 * b);
 
-                if (luminance < threshold) {
-                    colInk[x]++;
-                    rowInk[y]++;
-                }
+            if (luminance < threshold) {
+                colInk[x]++;
+                rowInk[y]++;
             }
         }
-
-        int minInkPerCol = Math.max(2, height / 200);
-        int minInkPerRow = Math.max(2, width / 200);
-        int gapSizeX = Math.max(15, width / 70);
-        int gapSizeY = Math.max(15, height / 70);
-
-        int left = 0;
-        while (left < width / 2) {
-            if (colInk[left] >= minInkPerCol) {
-                boolean isArtifact = true;
-                int checkEnd = Math.min(left + gapSizeX, width / 2);
-                for (int k = left + 1; k < checkEnd; k++) {
-                    if (colInk[k] >= minInkPerCol) {
-                        isArtifact = false;
-                        break;
-                    }
-                }
-                if (isArtifact) {
-                    left = left + gapSizeX;
-                } else {
-                    break;
-                }
-            } else {
-                left++;
-            }
-        }
-
-        int right = width - 1;
-        while (right > width / 2) {
-            if (colInk[right] >= minInkPerCol) {
-                boolean isArtifact = true;
-                int checkEnd = Math.max(right - gapSizeX, width / 2);
-                for (int k = right - 1; k > checkEnd; k--) {
-                    if (colInk[k] >= minInkPerCol) {
-                        isArtifact = false;
-                        break;
-                    }
-                }
-                if (isArtifact) {
-                    right = right - gapSizeX;
-                } else {
-                    break;
-                }
-            } else {
-                right--;
-            }
-        }
-
-        int top = 0;
-        while (top < height / 2) {
-            if (rowInk[top] >= minInkPerRow) {
-                boolean isArtifact = true;
-                int checkEnd = Math.min(top + gapSizeY, height / 2);
-                for (int k = top + 1; k < checkEnd; k++) {
-                    if (rowInk[k] >= minInkPerRow) {
-                        isArtifact = false;
-                        break;
-                    }
-                }
-                if (isArtifact) {
-                    top = top + gapSizeY;
-                } else {
-                    break;
-                }
-            } else {
-                top++;
-            }
-        }
-
-        int bottom = height - 1;
-        while (bottom > height / 2) {
-            if (rowInk[bottom] >= minInkPerRow) {
-                boolean isArtifact = true;
-                int checkEnd = Math.max(bottom - gapSizeY, height / 2);
-                for (int k = bottom - 1; k > checkEnd; k--) {
-                    if (rowInk[k] >= minInkPerRow) {
-                        isArtifact = false;
-                        break;
-                    }
-                }
-                if (isArtifact) {
-                    bottom = bottom - gapSizeY;
-                } else {
-                    break;
-                }
-            } else {
-                bottom--;
-            }
-        }
-
-        Bitmap cropped;
-        if (left < right && top < bottom && (right - left) > (width / 4) && (bottom - top) > (height / 4)) {
-            int cropWidth = right - left + 1;
-            int cropHeight = bottom - top + 1;
-            cropped = Bitmap.createBitmap(original, left, top, cropWidth, cropHeight);
-        } else {
-            cropped = original;
-        }
-
-        int cropW = cropped.getWidth();
-        int cropH = cropped.getHeight();
-
-        float ratio = Math.min((float) maxWidth / cropW, (float) maxHeight / cropH);
-        int newWidth = Math.round(ratio * cropW);
-        int newHeight = Math.round(ratio * cropH);
-
-        if (newWidth > maxWidth) newWidth = maxWidth;
-        if (newHeight > maxHeight) newHeight = maxHeight;
-
-        Bitmap scaled = Bitmap.createScaledBitmap(cropped, newWidth, newHeight, true);
-
-        if (cropped != original && cropped != scaled) {
-            cropped.recycle();
-        }
-
-        Bitmap finalBitmap = Bitmap.createBitmap(maxWidth, maxHeight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(finalBitmap);
-        canvas.drawColor(Color.WHITE);
-
-        float leftOffset = (maxWidth - newWidth) / 2f;
-        float topOffset = (maxHeight - newHeight) / 2f;
-
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        Paint paint = new Paint();
-        paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-
-        canvas.drawBitmap(scaled, leftOffset, topOffset, paint);
-
-        if (scaled != original && scaled != finalBitmap) {
-            scaled.recycle();
-        }
-
-        return finalBitmap;
     }
+
+    int minInkPerCol = Math.max(2, height / 200);
+    int minInkPerRow = Math.max(2, width / 200);
+    int gapSizeX = Math.max(15, width / 70);
+    int gapSizeY = Math.max(15, height / 70);
+    // Cuántas columnas/filas CONSECUTIVAS con tinta se necesitan para confiar en que es
+    // contenido real y no ruido aislado del escaneo (polvo, compresión JPEG, sombras).
+    int requiredRun = 3;
+
+    int left = 0;
+    while (left < width / 2) {
+        if (colInk[left] >= minInkPerCol) {
+            boolean isArtifact = true;
+            int checkEnd = Math.min(left + gapSizeX, width / 2);
+            int consecutive = 0;
+            for (int k = left + 1; k < checkEnd; k++) {
+                if (colInk[k] >= minInkPerCol) {
+                    consecutive++;
+                    if (consecutive >= requiredRun) {
+                        isArtifact = false;
+                        break;
+                    }
+                } else {
+                    consecutive = 0;
+                }
+            }
+            if (isArtifact) {
+                left = left + gapSizeX;
+            } else {
+                break;
+            }
+        } else {
+            left++;
+        }
+    }
+
+    int right = width - 1;
+    while (right > width / 2) {
+        if (colInk[right] >= minInkPerCol) {
+            boolean isArtifact = true;
+            int checkEnd = Math.max(right - gapSizeX, width / 2);
+            int consecutive = 0;
+            for (int k = right - 1; k > checkEnd; k--) {
+                if (colInk[k] >= minInkPerCol) {
+                    consecutive++;
+                    if (consecutive >= requiredRun) {
+                        isArtifact = false;
+                        break;
+                    }
+                } else {
+                    consecutive = 0;
+                }
+            }
+            if (isArtifact) {
+                right = right - gapSizeX;
+            } else {
+                break;
+            }
+        } else {
+            right--;
+        }
+    }
+
+    int top = 0;
+    while (top < height / 2) {
+        if (rowInk[top] >= minInkPerRow) {
+            boolean isArtifact = true;
+            int checkEnd = Math.min(top + gapSizeY, height / 2);
+            int consecutive = 0;
+            for (int k = top + 1; k < checkEnd; k++) {
+                if (rowInk[k] >= minInkPerRow) {
+                    consecutive++;
+                    if (consecutive >= requiredRun) {
+                        isArtifact = false;
+                        break;
+                    }
+                } else {
+                    consecutive = 0;
+                }
+            }
+            if (isArtifact) {
+                top = top + gapSizeY;
+            } else {
+                break;
+            }
+        } else {
+            top++;
+        }
+    }
+
+    int bottom = height - 1;
+    while (bottom > height / 2) {
+        if (rowInk[bottom] >= minInkPerRow) {
+            boolean isArtifact = true;
+            int checkEnd = Math.max(bottom - gapSizeY, height / 2);
+            int consecutive = 0;
+            for (int k = bottom - 1; k > checkEnd; k--) {
+                if (rowInk[k] >= minInkPerRow) {
+                    consecutive++;
+                    if (consecutive >= requiredRun) {
+                        isArtifact = false;
+                        break;
+                    }
+                } else {
+                    consecutive = 0;
+                }
+            }
+            if (isArtifact) {
+                bottom = bottom - gapSizeY;
+            } else {
+                break;
+            }
+        } else {
+            bottom--;
+        }
+    }
+
+    Bitmap cropped;
+    if (left < right && top < bottom && (right - left) > (width / 4) && (bottom - top) > (height / 4)) {
+        int cropWidth = right - left + 1;
+        int cropHeight = bottom - top + 1;
+        cropped = Bitmap.createBitmap(original, left, top, cropWidth, cropHeight);
+    } else {
+        cropped = original;
+    }
+
+    int cropW = cropped.getWidth();
+    int cropH = cropped.getHeight();
+
+    float ratio = Math.min((float) maxWidth / cropW, (float) maxHeight / cropH);
+    int newWidth = Math.round(ratio * cropW);
+    int newHeight = Math.round(ratio * cropH);
+
+    if (newWidth > maxWidth) newWidth = maxWidth;
+    if (newHeight > maxHeight) newHeight = maxHeight;
+
+    Bitmap scaled = Bitmap.createScaledBitmap(cropped, newWidth, newHeight, true);
+
+    if (cropped != original && cropped != scaled) {
+        cropped.recycle();
+    }
+
+    Bitmap finalBitmap = Bitmap.createBitmap(maxWidth, maxHeight, Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(finalBitmap);
+    canvas.drawColor(Color.WHITE);
+
+    float leftOffset = (maxWidth - newWidth) / 2f;
+    float topOffset = (maxHeight - newHeight) / 2f;
+
+    ColorMatrix colorMatrix = new ColorMatrix();
+    colorMatrix.setSaturation(0);
+    Paint paint = new Paint();
+    paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+
+    canvas.drawBitmap(scaled, leftOffset, topOffset, paint);
+
+    if (scaled != original && scaled != finalBitmap) {
+        scaled.recycle();
+    }
+
+    return finalBitmap;
+        }
 
     private static String getFileName(Context context, Uri uri) {
         String result = null;
