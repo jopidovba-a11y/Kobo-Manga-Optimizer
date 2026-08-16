@@ -56,6 +56,4 @@ Kindle devices do not read `.epub` files directly over USB — Amazon requires c
 - Some newer RAR5 archives with solid compression or encrypted headers may fail to extract.
 - Device resolutions are as accurate as publicly available specs — see the table above.
 
-## Contributing
 
-Issues and pull requests are welcome, especially for additional device profiles or resolution corrections.
