@@ -46,9 +46,6 @@ Resolutions were sourced from published device specs. If your device renders inc
 3. The app auto-crops, scales, centers, and grayscales every page in the background.
 4. Optimized files are saved to your **Downloads** folder as `<original_name>_fixed.cbz` or `.epub`.
 
-## A note on Kindle + EPUB
-
-Kindle devices do not read `.epub` files directly over USB — Amazon requires converting through **Send to Kindle** (email or the desktop/mobile app), which handles the format conversion automatically.
 
 ## Known limitations
 
