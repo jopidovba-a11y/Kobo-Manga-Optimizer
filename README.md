@@ -18,17 +18,19 @@ An Android app that optimizes manga archives (CBZ, ZIP, CBR, RAR, EPUP) for e-in
 - **Grayscale conversion**: since e-ink displays are grayscale, converting ahead of time keeps file sizes down and rendering fast.
 - **Multiple output formats**:
   - **CBZ** for Kobo devices (read natively by Nickel).
-  - **Fixed-layout EPUB3** for Kindle devices (pages render edge-to-edge, no reflow margins).
-- **Multiple input formats**: CBZ, ZIP, CBR, and RAR are all supported — format is detected from the file's actual contents, not its extension.
-- **Batch processing**: select and process multiple manga files in one go.
+  - **PDF or Epub** for Kindle devices
+- **Multiple input formats**: CBZ, ZIP, CBR, RAR and Epub are all supported — format is detected from the file's actual contents, not its extension.
+- **Border color selection**: select white or black margins for your manga
+- **Landscape mode**: Rotate your horizontal images automatically.
+- **Improve Colored Mangas**: Automatically applies different settings to improve the quality of colored images in your device.
 - **Runs as a foreground service**: processing continues reliably in the background with a persistent notification showing progress.
+- **Batch processing**: select and process multiple manga files in one go. 
 
 ## Supported devices
 
 | Device | Resolution |
 |---|---|
 | Kobo Clara BW | 1072 x 1448 |
-| Kobo Clara HD / Clara 2E | 1072 x 1448 |
 | Kobo Libra 2 / Libra Colour | 1264 x 1680 |
 | Kobo Sage | 1440 x 1920 |
 | Kobo Elipsa 2E | 1404 x 1872 |
@@ -41,16 +43,11 @@ CUSTOM RESOLUTION now supported.
 
 ## How it works
 
-1. Pick one or more `.cbz` / `.zip` / `.cbr` / `.rar` files.
+1. Pick one or more `.cbz` / `.zip` / `.cbr` / `.rar` / `.epub` files.
 2. Choose your target device and output format (CBZ is recommended)
 3. The app auto-crops, scales, centers, and grayscales every page in the background.
 4. Optimized files are saved to your **Downloads** folder as `<original_name>_fixed.cbz` or `.epub`.
 
 
-## Known limitations
-
-- Very large batches (many files selected at once) may hit Android's `Intent` extras size limit; a handful of manga volumes at a time works fine.
-- Some newer RAR5 archives with solid compression or encrypted headers may fail to extract.
-  
 
 
