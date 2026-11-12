@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:fitsSystemWindows="true"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Target device"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/logo_grey" />
+
+        <Spinner
+            android:id="@+id/spinnerDevice"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/labelCustomResolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom resolution (width x height, px)"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/logo_grey"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/rowCustomResolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/editCustomWidth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:hint="Width"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" x "
+                android:textSize="16sp"
+                android:textColor="@color/text_secondary"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp" />
+
+            <EditText
+                android:id="@+id/editCustomHeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:hint="Height"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Output format"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/logo_grey" />
+
+        <Spinner
+            android:id="@+id/spinnerFormat"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Output quality"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/logo_grey" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioQuality85"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="85%"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey"
+                android:checked="true" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioQuality95"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="95%"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioQuality100"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="100%"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioQualityLossless"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Lossless (PNG)"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rotate landscape pages"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/logo_grey" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupRotation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioRotateNone"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="None"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey"
+                android:checked="true" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioRotateAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Auto-rotate horizontal pages only"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioRotateAll"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Rotate all pages"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Border color"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/logo_grey" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupBorderColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioBorderWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="White"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey"
+                android:checked="true" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioBorderBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:text="Black"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioBorderAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:text="Auto"
+                android:textColor="@color/text_primary"
+                app:buttonTint="@color/logo_grey" />
+        </RadioGroup>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkboxColorManga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Improve colored mangas (only select if there's color in your images)"
+            android:textColor="@color/text_primary"
+            app:buttonTint="@color/logo_grey"
+            android:layout_marginBottom="24dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSelectFile"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Select Manga"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/background"
+            app:backgroundTint="@color/primary"
+            app:cornerRadius="30dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Supported formats: .cbz, .zip, .cbr, .rar, .epub"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="No file selected"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
