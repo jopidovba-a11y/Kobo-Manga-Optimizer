@@ -48,6 +48,10 @@ CUSTOM RESOLUTION now supported.
 3. The app auto-crops, scales, centers, and grayscales every page in the background.
 4. Optimized files are saved to your **Downloads** folder as `<original_name>_fixed.cbz` or `.epub`.
 
+## Notes
+You should select 85% quality in order to enjoy all the benefits of this app.
+
+Choosing lossless quality is actually a bad idea as it transforms all images to png and the output is even bigger than the original file, I just leave this option in case someone wants to enjoy their manga in maximum quality and enjoy the features like centering or border color.  
 
 
 
