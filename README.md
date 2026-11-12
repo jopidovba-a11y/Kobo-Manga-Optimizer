@@ -22,7 +22,7 @@ An Android app that optimizes manga archives (CBZ, ZIP, CBR, RAR, EPUP) for e-in
 - **Multiple input formats**: CBZ, ZIP, CBR, RAR and Epub are all supported — format is detected from the file's actual contents, not its extension.
 - **Border color selection**: select white or black margins for your manga
 - **Landscape mode**: Rotate your horizontal images automatically.
-- **Improve Colored Mangas**: Automatically applies different settings to improve the quality of colored images in your device.
+- **Improve Colored Mangas (Experimental)**: Automatically applies different settings to improve the quality of colored images in your device (it works better for saturated and awful colors, better left unchecked in general).
 - **Runs as a foreground service**: processing continues reliably in the background with a persistent notification showing progress.
 - **Batch processing**: select and process multiple manga files in one go. 
 
