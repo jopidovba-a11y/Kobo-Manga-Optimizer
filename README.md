@@ -4,7 +4,7 @@ An Android app that optimizes manga archives (CBZ, ZIP, CBR, RAR, EPUP) for e-in
 
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/b81fdf9e-55d5-4927-86ae-1b707e1a9734" alt="Preview 0" width="100%"></td>
+    <td><img src="https://github.com/user-attachments/assets/c7fc2ddf-73c7-4de3-96b7-01e892088609" alt="Preview 0" width="100%"></td>
     <td><img src="https://github.com/user-attachments/assets/7ca6f884-78b9-4466-90e3-58a81f140c54" alt="Preview 1" width="100%"></td>
     <td><img src="https://github.com/user-attachments/assets/630848e8-1566-40e4-97ee-bef09e259894" alt="Preview 2" width="100%"></td>
     <td><img src="https://github.com/user-attachments/assets/9c6d63f9-7c4d-45b5-b8a3-6f1d850c0784" alt="Preview 3" width="100%"></td>
